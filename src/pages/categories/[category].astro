@@ -2,36 +2,46 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PostCard from '../../components/PostCard.astro';
+import { slugify } from '../../lib/slugify';
+import { CATEGORY_META, CATEGORY_ORDER } from '../../lib/categories';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
-  const categories = [...new Set(posts.map((post) => post.data.category))];
-  return categories.map((category) => ({
-    params: { category },
+  const all = [...new Set([...CATEGORY_ORDER, ...posts.map((p) => p.data.category)])];
+  return all.map((label) => ({
+    params: { category: slugify(label) },
     props: {
+      label,
       posts: posts
-        .filter((post) => post.data.category === category)
+        .filter((p) => p.data.category === label)
         .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()),
     },
   }));
 }
 
-const { category } = Astro.params;
-const { posts } = Astro.props;
+const { label, posts } = Astro.props;
+const meta = CATEGORY_META[label];
 ---
 
-<BaseLayout title={`Category: ${category}`}>
-  <h1>Category: {category}</h1>
-  <p class="post-meta">{posts.length} {posts.length === 1 ? 'post' : 'posts'}</p>
+<BaseLayout title={`Category: ${label}`}>
+  <h1>{meta?.icon} {label}</h1>
+  {meta && <p class="page-intro">{meta.description}</p>}
   {
-    posts.map((post) => (
-      <PostCard
-        id={post.id}
-        title={post.data.title}
-        description={post.data.description}
-        pubDate={post.data.pubDate}
-        tags={post.data.tags}
-      />
-    ))
+    posts.length === 0 ? (
+      <p>No notes here yet — coming soon.</p>
+    ) : (
+      <>
+        <p class="post-meta">{posts.length} {posts.length === 1 ? 'note' : 'notes'}</p>
+        {posts.map((post) => (
+          <PostCard
+            id={post.id}
+            title={post.data.title}
+            description={post.data.description}
+            pubDate={post.data.pubDate}
+            tags={post.data.tags}
+          />
+        ))}
+      </>
+    )
   }
 </BaseLayout>

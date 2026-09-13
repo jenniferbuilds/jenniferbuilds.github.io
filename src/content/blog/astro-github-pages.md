@@ -3,7 +3,7 @@ title: 'How to Build a GitHub Pages Blog with Astro'
 description: 'From zero to deployed: build a static blog with Astro and publish it to GitHub Pages with GitHub Actions.'
 pubDate: 2026-09-05
 tags: ['Astro', 'GitHub', 'Tutorial']
-category: 'Tech'
+category: 'Developer Tools'
 ---
 
 This post covers the tech stack behind this blog and how it gets deployed.
@@ -34,7 +34,7 @@ title: 'Post title'
 description: 'A one-line summary'
 pubDate: 2026-09-10
 tags: ['TagA', 'TagB']
-category: 'Tech'
+category: 'AI & Agents'
 ---
 
 Your content here……

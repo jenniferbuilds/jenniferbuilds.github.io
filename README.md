@@ -29,7 +29,7 @@ title: 'Post title'
 description: 'A one-line summary'
 pubDate: 2026-09-13
 tags: ['TagA', 'TagB']
-category: 'Tech'
+category: 'AI & Agents'
 ---
 
 Your content here……

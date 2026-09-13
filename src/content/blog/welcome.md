@@ -3,7 +3,7 @@ title: 'Welcome to My Blog'
 description: 'The very first post: why I built this blog and what it can do.'
 pubDate: 2026-09-01
 tags: ['Musings', 'Meta']
-category: 'Musings'
+category: 'Building'
 ---
 
 Welcome to my blog! This is the very first post, and it doubles as a feature test.

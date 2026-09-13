@@ -1,0 +1,50 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const projects = [
+  {
+    name: 'AI Agent Runtime',
+    description: 'A local-first runtime where tool calling, memory, skills, and workflows fit together.',
+    status: 'Active',
+  },
+  {
+    name: 'Job Seeker Agent',
+    description: 'A LangGraph-powered pipeline for job search, ranking, resume tailoring, and application tracking.',
+    status: 'Active',
+  },
+  {
+    name: 'Personal AI Agent',
+    description: 'A local-first assistant that runs entirely on my own machine.',
+    status: 'Building',
+  },
+  {
+    name: 'Vibe Coding IDE',
+    description: 'An IDE built around AI pair-programming workflows.',
+    status: 'Experiment',
+  },
+  {
+    name: 'Learning Video Generator',
+    description: 'Turns study notes into short explainer videos.',
+    status: 'Experiment',
+  },
+];
+---
+
+<BaseLayout title="Projects">
+  <h1>Projects</h1>
+  <p class="page-intro">Things I'm actually building.</p>
+  <div class="project-grid">
+    {
+      projects.map((p) => (
+        <article class="project-card">
+          <h3>{p.name}</h3>
+          <p>{p.description}</p>
+          <div class="project-meta">
+            <span class="status">{p.status}</span>
+            <a href="https://github.com/jenniferbuilds" target="_blank" rel="noopener">GitHub →</a>
+          </div>
+        </article>
+      ))
+    }
+  </div>
+</BaseLayout>

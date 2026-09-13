@@ -3,7 +3,7 @@ title: 'Markdown Cheatsheet'
 description: 'A quick reference for everyday Markdown syntax: headings, lists, code blocks, quotes, tables…'
 pubDate: 2026-09-10
 tags: ['Markdown', 'Writing']
-category: 'Tech'
+category: 'Learning'
 ---
 
 Blogging means writing a lot of Markdown, so here's a cheatsheet of the syntax I use most.

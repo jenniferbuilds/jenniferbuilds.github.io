@@ -3,6 +3,7 @@ import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
 import { withBase } from '../../lib/paths';
+import { slugify } from '../../lib/slugify';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
@@ -26,14 +27,14 @@ const { Content } = await render(post);
           <span>(updated <FormattedDate date={post.data.updatedDate} />)</span>
         )
       }
-       · <a href={withBase(`/categories/${post.data.category}/`)}>{post.data.category}</a>
+       · <a href={withBase(`/categories/${slugify(post.data.category)}/`)}>{post.data.category}</a>
     </p>
     {
       post.data.tags.length > 0 && (
         <ul class="tag-list">
           {post.data.tags.map((tag) => (
             <li>
-              <a class="tag" href={withBase(`/tags/${tag}/`)}>#{tag}</a>
+              <a class="tag" href={withBase(`/tags/${slugify(tag)}/`)}>#{tag}</a>
             </li>
           ))}
         </ul>
@@ -43,5 +44,5 @@ const { Content } = await render(post);
       <Content />
     </div>
   </article>
-  <p style="margin-top: 2rem;"><a href={withBase('/blog/')}>← Back to all posts</a></p>
+  <p style="margin-top: 2rem;"><a href={withBase('/notes/')}>← Back to all notes</a></p>
 </BaseLayout>

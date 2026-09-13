@@ -1,35 +1,77 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import PostCard from '../components/PostCard.astro';
 import { withBase } from '../lib/paths';
+import { summarizeCategories } from '../lib/categories';
 
-const posts = (await getCollection('blog'))
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-  .slice(0, 5);
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+const featured = posts.filter((p) => p.data.featured).slice(0, 3);
+const recent = posts.slice(0, 5);
+const categories = summarizeCategories(posts.map((p) => p.data.category));
+
+const shortDate = (d: Date) =>
+  d.toLocaleDateString('en-US', { month: 'short', day: '2-digit', timeZone: 'UTC' });
 ---
 
 <BaseLayout>
-  <section class="hero">
-    <h1>👋 Welcome to my blog</h1>
-    <p>Notes on code, learning, and tinkering. Built with Astro, hosted on GitHub Pages.</p>
+  <section class="hero-home">
+    <h1 class="site-name">Jennifer Builds</h1>
+    <p class="tagline">I build things, figure out how they work,<br />and write it down.</p>
+    <p class="keywords">AI · Agents · Software Engineering · Systems</p>
+    <div class="hero-actions">
+      <a class="btn" href={withBase('/notes/')}>Read the notes</a>
+      <a class="btn btn-outline" href={withBase('/about/')}>About me</a>
+    </div>
+  </section>
+
+  {
+    featured.length > 0 && (
+      <section>
+        <h2 class="section-title">Featured</h2>
+        <div class="featured-grid">
+          {featured.map((post) => (
+            <a class="featured-card" href={withBase(`/notes/${post.id}/`)}>
+              <h3>{post.data.title}</h3>
+              <p>{post.data.description}</p>
+              <span class="read-more">Read the note →</span>
+            </a>
+          ))}
+        </div>
+      </section>
+    )
+  }
+
+  <section>
+    <h2 class="section-title">Engineering Notes</h2>
+    <div class="category-grid">
+      {
+        categories.map((c) => (
+          <a class="category-card" href={withBase(`/categories/${c.slug}/`)}>
+            <span class="category-icon">{c.icon}</span>
+            <div>
+              <h3>{c.label}</h3>
+              <p>{c.description}</p>
+            </div>
+            <span class="count">{c.count}</span>
+          </a>
+        ))
+      }
+    </div>
   </section>
 
   <section>
-    <div class="section-head">
-      <h2>Latest Posts</h2>
-      <a href={withBase('/blog/')}>All posts →</a>
-    </div>
-    {
-      posts.map((post) => (
-        <PostCard
-          id={post.id}
-          title={post.data.title}
-          description={post.data.description}
-          pubDate={post.data.pubDate}
-          tags={post.data.tags}
-        />
-      ))
-    }
+    <h2 class="section-title">Recently</h2>
+    <ul class="recently-list">
+      {
+        recent.map((post) => (
+          <li>
+            <time datetime={post.data.pubDate.toISOString()}>{shortDate(post.data.pubDate)}</time>
+            <a href={withBase(`/notes/${post.id}/`)}>{post.data.title}</a>
+          </li>
+        ))
+      }
+    </ul>
   </section>
 </BaseLayout>
