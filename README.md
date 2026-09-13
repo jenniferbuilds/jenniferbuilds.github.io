@@ -12,6 +12,8 @@ A static blog built with [Astro](https://astro.build), automatically deployed to
 
 ## Local development
 
+Requires **Node.js ≥ 22.12**.
+
 ```bash
 npm install
 npm run dev      # http://localhost:4321
