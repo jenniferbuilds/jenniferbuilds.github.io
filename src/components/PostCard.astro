@@ -1,0 +1,33 @@
+---
+import FormattedDate from './FormattedDate.astro';
+import { withBase } from '../lib/paths';
+
+interface Props {
+  id: string;
+  title: string;
+  description: string;
+  pubDate: Date;
+  tags?: string[];
+}
+
+const { id, title, description, pubDate, tags = [] } = Astro.props;
+---
+
+<article class="post-card">
+  <p class="post-meta"><FormattedDate date={pubDate} /></p>
+  <h2 class="post-card-title">
+    <a href={withBase(`/blog/${id}/`)}>{title}</a>
+  </h2>
+  <p class="post-desc">{description}</p>
+  {
+    tags.length > 0 && (
+      <ul class="tag-list">
+        {tags.map((tag) => (
+          <li>
+            <a class="tag" href={withBase(`/tags/${tag}/`)}>#{tag}</a>
+          </li>
+        ))}
+      </ul>
+    )
+  }
+</article>

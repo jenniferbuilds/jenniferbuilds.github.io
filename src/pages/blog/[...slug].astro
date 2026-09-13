@@ -1,0 +1,47 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import FormattedDate from '../../components/FormattedDate.astro';
+import { withBase } from '../../lib/paths';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: post,
+  }));
+}
+
+const post = Astro.props;
+const { Content } = await render(post);
+---
+
+<BaseLayout title={post.data.title} description={post.data.description}>
+  <article data-pagefind-body>
+    <h1>{post.data.title}</h1>
+    <p class="post-meta">
+      <FormattedDate date={post.data.pubDate} />
+      {
+        post.data.updatedDate && (
+          <span>(updated <FormattedDate date={post.data.updatedDate} />)</span>
+        )
+      }
+       · <a href={withBase(`/categories/${post.data.category}/`)}>{post.data.category}</a>
+    </p>
+    {
+      post.data.tags.length > 0 && (
+        <ul class="tag-list">
+          {post.data.tags.map((tag) => (
+            <li>
+              <a class="tag" href={withBase(`/tags/${tag}/`)}>#{tag}</a>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+    <div class="prose">
+      <Content />
+    </div>
+  </article>
+  <p style="margin-top: 2rem;"><a href={withBase('/blog/')}>← Back to all posts</a></p>
+</BaseLayout>

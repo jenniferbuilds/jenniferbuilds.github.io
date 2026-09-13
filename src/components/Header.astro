@@ -1,0 +1,40 @@
+---
+import { SITE_TITLE } from '../consts';
+import { withBase } from '../lib/paths';
+import ThemeToggle from './ThemeToggle.astro';
+
+const navItems = [
+  { label: 'Home', href: withBase('/') },
+  { label: 'Blog', href: withBase('/blog') },
+  { label: 'Tags', href: withBase('/tags') },
+  { label: 'Categories', href: withBase('/categories') },
+  { label: 'Search', href: withBase('/search') },
+  { label: 'About', href: withBase('/about') },
+];
+
+const pathname = Astro.url.pathname.replace(import.meta.env.BASE_URL, '/');
+---
+
+<header class="site-header">
+  <nav class="container nav">
+    <a href={withBase('/')} class="logo">{SITE_TITLE}</a>
+    <ul class="nav-list">
+      {
+        navItems.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              class:list={[
+                'nav-link',
+                { active: item.href === withBase('/') ? pathname === '/' : pathname.startsWith(new URL(item.href, 'http://x').pathname.replace(import.meta.env.BASE_URL, '/')) },
+              ]}
+            >
+              {item.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <ThemeToggle />
+  </nav>
+</header>
