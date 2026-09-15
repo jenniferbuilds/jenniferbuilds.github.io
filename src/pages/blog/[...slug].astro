@@ -1,0 +1,57 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { withBase } from '../../lib/paths';
+import { readingTimeMinutes } from '../../lib/reading-time';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: post,
+  }));
+}
+
+const post = Astro.props;
+const { Content } = await render(post);
+const dateStr = post.data.pubDate.toLocaleDateString('en-US', {
+  month: 'short',
+  day: 'numeric',
+  year: 'numeric',
+  timeZone: 'UTC',
+});
+---
+
+<BaseLayout title={post.data.title} description={post.data.description}>
+  <article data-pagefind-body>
+    <header class="article-header">
+      <h1>{post.data.title}</h1>
+      <p class="article-desc">{post.data.description}</p>
+      <p class="article-meta">
+        {dateStr} · {readingTimeMinutes(post.body)} min read
+      </p>
+    </header>
+    <hr class="article-divider" />
+    <div class="prose">
+      <Content />
+    </div>
+  </article>
+  <p><a href={withBase('/blog/')}>← Blog</a></p>
+  <script is:inline>
+    document.querySelectorAll('.prose pre').forEach((pre) => {
+      const btn = document.createElement('button');
+      btn.className = 'copy-btn';
+      btn.type = 'button';
+      btn.textContent = 'Copy';
+      btn.addEventListener('click', () => {
+        const code = pre.querySelector('code');
+        navigator.clipboard?.writeText(code?.innerText ?? pre.innerText);
+        btn.textContent = 'Copied';
+        setTimeout(() => {
+          btn.textContent = 'Copy';
+        }, 1500);
+      });
+      pre.appendChild(btn);
+    });
+  </script>
+</BaseLayout>

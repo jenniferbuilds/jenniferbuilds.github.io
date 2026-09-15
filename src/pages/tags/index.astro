@@ -11,20 +11,20 @@ for (const post of posts) {
     tagCounts.set(tag, (tagCounts.get(tag) ?? 0) + 1);
   }
 }
-const tags = [...tagCounts.entries()].sort((a, b) => b[1] - a[1]);
+const tags = [...tagCounts.entries()].sort((a, b) => a[0].localeCompare(b[0]));
 ---
 
 <BaseLayout title="Tags">
-  <h1>Tags</h1>
+  <h1 class="page-title">Tags</h1>
   {
     tags.length === 0 ? (
-      <p>No tags yet.</p>
+      <p class="page-intro">No tags yet.</p>
     ) : (
-      <ul class="cloud-list">
+      <ul class="filter-list">
         {tags.map(([tag, count]) => (
           <li>
             <a href={withBase(`/tags/${slugify(tag)}/`)}>
-              #{tag} <span class="count">({count})</span>
+              {tag} <span class="count">({count})</span>
             </a>
           </li>
         ))}

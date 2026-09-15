@@ -1,13 +1,13 @@
-# My Blog
+# Jennifer Builds
 
-A static blog built with [Astro](https://astro.build), automatically deployed to GitHub Pages via GitHub Actions.
+A quiet, minimalist personal engineering blog built with [Astro](https://astro.build) and deployed to GitHub Pages via GitHub Actions. The content is the design: typography, whitespace, and readability, with almost no visual decoration.
 
 ## Features
 
 - 📝 **Markdown posts** — write in `src/content/blog/`
-- 🌙 **Dark mode** — follows system preference / manual toggle, remembers the choice
 - 🔍 **Full-text search** — powered by [Pagefind](https://pagefind.app), index built at build time, no backend
-- 🏷️ **Tags & categories** — auto-generated tag and category pages
+- 🏷️ **Tags & categories** — auto-generated tag and category pages, kept out of the way
+- 📡 **RSS & sitemap** — generated at build time
 - 🚀 **Auto deploy** — push to `main` and the site rebuilds and publishes itself
 
 ## Local development
@@ -47,16 +47,11 @@ npm run preview  # preview the production build (search works here)
 
 ## Deploy to GitHub Pages
 
-1. Create a GitHub repository (e.g. `blog`) and push this project to its `main` branch.
-2. Edit `astro.config.mjs`:
-   - Set `site` to `https://<your-username>.github.io`
-   - If the repo is named `<your-username>.github.io`, no `base` is needed.
-     Otherwise (e.g. repo named `blog`), uncomment and set `base: '/blog'`
+1. Push this project to its repository's `main` branch.
+2. Site config lives in `astro.config.mjs` (`site`, and `base` only for project sites).
 3. Update the site title and description in `src/consts.ts`.
 4. In the repo, go to **Settings → Pages** and set **Source** to **GitHub Actions**.
-5. Push — the workflow builds and publishes automatically. Your site will be at:
-   - `https://<your-username>.github.io/` (user site)
-   - `https://<your-username>.github.io/<repo>/` (project site)
+5. Push — the workflow builds and publishes automatically.
 
 ## Project structure
 
@@ -65,10 +60,10 @@ npm run preview  # preview the production build (search works here)
 ├── src/
 │   ├── content/blog/              # Markdown posts
 │   ├── content.config.ts          # Content collection (frontmatter schema)
-│   ├── layouts/BaseLayout.astro   # Global layout (dark-mode init)
-│   ├── components/                # Header / Footer / ThemeToggle / PostCard
-│   ├── pages/                     # Home, blog, tags, categories, search, about
-│   ├── lib/paths.ts               # base-path helper
-│   └── styles/global.css          # Global styles (light/dark variables)
-└── astro.config.mjs               # site / base config
+│   ├── layouts/BaseLayout.astro   # Global layout
+│   ├── components/                # Header / Footer / PostLine
+│   ├── pages/                     # Home, blog, tags, categories, search, about, RSS
+│   ├── lib/                       # paths / reading-time / slugify helpers
+│   └── styles/global.css          # Global styles (monochrome variables)
+└── astro.config.mjs               # site / base / Shiki config
 ```
