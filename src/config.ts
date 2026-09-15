@@ -171,7 +171,7 @@ export const themeConfig: ThemeConfig = {
       },
       {
         name: 'LinkedIn',
-        url: 'https://www.linkedin.com/in/jenniferbuilds/',
+        url: 'https://www.linkedin.com/in/jennifer-chen66/',
       },
     ],
     // year of website start
