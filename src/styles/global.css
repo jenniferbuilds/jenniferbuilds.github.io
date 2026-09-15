@@ -174,7 +174,7 @@ a:hover {
   font-size: 1.125rem;
   line-height: 1.6;
   color: var(--color-muted);
-  margin: 0;
+  margin: 0 0 1rem;
 }
 
 /* ===== 文章列表 ===== */
