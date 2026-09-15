@@ -1,89 +1,351 @@
-# Retypeset
+# Jennifer Builds
 
-![Cover Image](assets/images/v1/retypeset-en-desktop.webp)
-![Cover Image](assets/images/v1/retypeset-en-mobile.webp)
+My personal engineering blog, built with [Astro](https://astro.build) + the [Retypeset](https://github.com/radishzzz/astro-theme-retypeset) theme, deployed on GitHub Pages.
 
-[简体中文](assets/docs/README.zh.md)｜[繁体中文](assets/docs/README.zh-tw.md)｜[日本語](assets/docs/README.ja.md)｜[Español](assets/docs/README.es.md)｜[Français](assets/docs/README.fr.md)｜[Русский](assets/docs/README.ru.md)
+**Live site:** https://jenniferbuilds.github.io
 
-Retypeset is a static blog theme based on the [Astro](https://astro.build/) framework. Inspired by [Typography](https://astro-theme-typography.vercel.app/), Retypeset establishes a new visual standard and reimagines the layout of all pages, creating a reading experience reminiscent of paper books, reviving the beauty of typography. Details in every sight, elegance in every space.
+---
 
-## Demo
+## How this site works (30-second version)
 
-- [Retypeset](https://retypeset.radishzz.cc/en/)
-- [Retipografía](https://retypeset.radishzz.cc/es/)
-- [Переверстка](https://retypeset.radishzz.cc/ru/)
-- [重新编排](https://retypeset.radishzz.cc/)
-- [重新編排](https://retypeset.radishzz.cc/zh-tw/)
-- [再組版](https://retypeset.radishzz.cc/ja/)
+1. Blog posts are Markdown files in `src/content/posts/`
+2. You push to the `main` branch on GitHub
+3. GitHub Actions automatically builds and deploys the site (~1 min)
+4. Done. Nothing else to manage.
 
-## Features
+---
 
-- Built with Astro and UnoCSS
-- Support for SEO, Sitemap, OpenGraph, RSS, MDX, LaTeX, Mermaid, and TOC
-- i18n support
-- Light / Dark mode
-- Elegant view transitions
-- Rich theme customization
-- Optimized typography
-- Responsive design
-- Comment system
+## Table of Contents
 
-## Performance
+- [Local development](#local-development)
+- [Writing a new post](#writing-a-new-post)
+- [Frontmatter reference](#frontmatter-reference)
+- [Diagrams (Mermaid)](#diagrams-mermaid)
+- [Images](#images)
+- [Math (KaTeX)](#math-katex)
+- [Code blocks](#code-blocks)
+- [Editing the About page](#editing-the-about-page)
+- [Deploying](#deploying)
+- [Common tasks](#common-tasks)
+- [Troubleshooting](#troubleshooting)
 
-<br>
-<p align="center">
-  <a href="https://pagespeed.web.dev/analysis?url=https%3A%2F%2Fretypeset.radishzz.cc%2Fen%2F&form_factor=desktop">
-    <img width="710" alt="Retypeset Lighthouse Score" src="assets/images/retypeset-lighthouse-score.svg">
-  <a>
-</p>
+---
 
-## Getting Started
+## Local development
 
-1. [Fork](https://github.com/radishzzz/astro-theme-retypeset/fork) this repository, or use this template to create a new repository.
-2. Run the following commands in your terminal:
+Requires **Node.js ≥ 22** and **pnpm**.
 
-   ```bash
-   # Clone the repository
-   git clone <repository-url>
+```bash
+pnpm install     # first time only
+pnpm dev         # http://localhost:4321
+```
 
-   # Navigate to the project directory
-   cd <repository-name>
+Preview the production build locally:
 
-   # Install pnpm globally (if not already installed)
-   npm install -g pnpm
+```bash
+pnpm build
+pnpm preview
+```
 
-   # Install dependencies
-   pnpm install
+---
 
-   # Start the development server
-   pnpm dev
-   ```
+## Writing a new post
 
-3. Refer to the [Theme Guide](https://retypeset.radishzz.cc/en/posts/theme-guide/) to customize your blog and create new posts.
-4. Refer to the [Astro Deployment Guides](https://docs.astro.build/en/guides/deploy/) to deploy your blog to Netlify, Vercel, or other platforms.
+### Option A: use the generator (recommended)
 
-&emsp;[![Deploy to Netlify](assets/images/deploy-netlify.svg)](https://app.netlify.com/start) [![Deploy to Vercel](assets/images/deploy-vercel.svg)](https://vercel.com/new)
+```bash
+pnpm new-post my-first-post
+```
 
-## Updates
+This creates `src/content/posts/my-first-post.md` with the frontmatter pre-filled.
 
-Retypeset releases [new features](https://github.com/radishzzz/astro-theme-retypeset/issues/18) from time to time. Simply run `pnpm update-theme` to update the theme. If you encounter merge conflicts, please refer to [this video](https://youtu.be/lz5OuKzvadQ?si=sH_ALNgqxrYqNVQT) for manual resolution.
+### Option B: create the file by hand
 
-## Credits
+Create `src/content/posts/my-first-post.md`:
 
-- [Typography](https://github.com/moeyua/astro-theme-typography)
-- [Fuwari](https://github.com/saicaca/fuwari)
-- [Redefine](https://github.com/EvanNotFound/hexo-theme-redefine)
-- [AstroPaper](https://github.com/satnaing/astro-paper)
-- [heti](https://github.com/sivan/heti)
-- [EarlySummerSerif](https://github.com/GuiWonder/EarlySummerSerif)
+```markdown
+---
+title: My First Post
+published: 2026-09-15
+description: 'A one-line summary shown under the title'
+tags:
+  - AI Agents
+  - Notes
+draft: false
+---
 
-## Star History
+Write your post here in Markdown.
+```
 
-<p align="center">
-<a href="https://star-history.com/#radishzzz/astro-theme-retypeset&Date">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=radishzzz/astro-theme-retypeset&type=Date&theme=dark" />
-    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=radishzzz/astro-theme-retypeset&type=Date" />
-    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=radishzzz/astro-theme-retypeset&type=Date" />
-  </picture>
-</p>
+Then `pnpm dev` and open http://localhost:4321 to see it.
+
+### Post URL
+
+The file name becomes the URL:
+
+```
+src/content/posts/my-first-post.md   →   /posts/my-first-post/
+```
+
+To use a custom URL instead, set `abbrlink`:
+
+```yaml
+abbrlink: 'agent-runtime-notes'   # → /posts/agent-runtime-notes/
+```
+
+---
+
+## Frontmatter reference
+
+Everything between the `---` lines at the top of a post:
+
+| Field | Required | What it does |
+|-------|----------|--------------|
+| `title` | ✅ | Post title |
+| `published` | ✅ | Publish date, e.g. `2026-09-15` |
+| `description` | | One-line summary (used in lists & SEO) |
+| `updated` | | Last-updated date (shows when set) |
+| `tags` | | List of tags, e.g. `- AI Agents` |
+| `draft` | | `true` = hidden from the site (default `false`) |
+| `pin` | | `1–99` pins the post to the top (bigger = higher) |
+| `toc` | | Table of contents on the right (default `true`) |
+| `abbrlink` | | Custom URL slug |
+| `lang` | | Leave empty (`''`) for English posts |
+
+**Tip:** set `draft: true` while writing; flip to `false` when ready to publish.
+
+---
+
+## Diagrams (Mermaid)
+
+Tech posts often need diagrams — this theme renders [Mermaid](https://mermaid.js.org/) automatically. Just use a ` ```mermaid ` code block.
+
+### Flowchart (most common)
+
+````markdown
+```mermaid
+flowchart TD
+    User --> Agent
+    Agent --> Tools
+    Tools --> Results
+```
+````
+
+renders:
+
+```
+User → Agent → Tools → Results   (as a real diagram)
+```
+
+More variants:
+
+````markdown
+```mermaid
+flowchart LR
+    A[Client] --> B{Gateway}
+    B -->|success| C[Service]
+    B -->|fail| D[Error page]
+```
+````
+
+### Sequence diagram
+
+````markdown
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant A as Agent
+    participant T as Tool
+    U->>A: request
+    A->>T: tool_call(args)
+    T-->>A: result
+    A-->>U: answer
+```
+````
+
+### State diagram
+
+````markdown
+```mermaid
+stateDiagram-v2
+    [*] --> Draft
+    Draft --> Review : submit
+    Review --> Published : approve
+    Review --> Draft : reject
+```
+````
+
+### Architecture / block diagram
+
+````markdown
+```mermaid
+block-beta
+    columns 3
+    a["Client"]:3
+    b["API"] c["Worker"] d["Queue"]
+    e["DB"]:3
+```
+````
+
+**Other supported types:** `erDiagram`, `gantt`, `pie`, `gitGraph`, `mindmap`, `timeline`, `xychart`…
+Full syntax reference: https://mermaid.js.org/intro/
+
+**Live editor:** prototype diagrams at https://mermaid.live and paste the code into your post.
+
+### Simple ASCII diagrams
+
+If a plain text diagram is enough, use a normal code block — no setup needed:
+
+````markdown
+```
+User
+  ↓
+Agent
+  ↓
+Tools
+  ↓
+Results
+```
+````
+
+---
+
+## Images
+
+1. Put the image file in the post's folder, e.g.
+
+```
+src/content/posts/my-first-post/
+├── index.md
+└── diagram.png
+```
+
+2. Reference it with a relative path:
+
+```markdown
+![System architecture](./diagram.png)
+```
+
+For hotlinked external images just paste the URL: `![alt](https://…)`.
+
+---
+
+## Math (KaTeX)
+
+Inline: `$O(n \log n)$` → renders inline.
+
+Block:
+
+```markdown
+$$
+\text{score} = \alpha \cdot \text{similarity} + \beta \cdot \text{recency}
+$$
+```
+
+---
+
+## Code blocks
+
+Use triple backticks with a language name for syntax highlighting:
+
+````markdown
+```python
+def greet(name):
+    return f"Hello, {name}!"
+```
+````
+Common languages: `python`, `typescript`, `javascript`, `bash`, `json`, `yaml`, `go`, `rust`, `sql`, `html`, `css`, `markdown`.
+
+---
+
+## Editing the About page
+
+The About page lives at:
+
+```
+src/content/about/about-en.md
+```
+
+Edit it like a normal Markdown file, commit, push — done.
+
+---
+
+## Deploying
+
+Deployment is automatic. Every push to `main` rebuilds and publishes the site.
+
+```bash
+git add .
+git commit -m "Add post: my-first-post"
+git push
+```
+
+Then:
+
+1. Watch progress: https://github.com/jenniferbuilds/jenniferbuilds.github.io/actions
+2. Wait for the green check (~1 min)
+3. Hard-refresh the site: **Cmd+Shift+R** (Mac) / **Ctrl+F5** (Windows)
+
+> ⚠️ **Seeing an old page after deploying?** It's browser cache — hard-refresh first.
+
+---
+
+## Common tasks
+
+| Task | Where |
+|------|-------|
+| New post | `pnpm new-post <name>` → edit `src/content/posts/<name>.md` |
+| Edit site title / subtitle | `src/config.ts` → `site.title` / `site.subtitle` |
+| Edit homepage description | `src/i18n/ui.ts` → `'en'.description` |
+| Edit footer links | `src/config.ts` → `footer.links` |
+| Edit About page | `src/content/about/about-en.md` |
+| Change theme colors | `src/config.ts` → `color` |
+| Enable comments | `src/config.ts` → `comment.enabled` |
+
+---
+
+## Troubleshooting
+
+**`git push` fails with `Bad configuration option: usekeychain`**
+
+Your `~/.ssh/config` has an option your SSH build doesn't support. Workaround:
+
+```bash
+GIT_SSH_COMMAND="ssh -F /dev/null -o IdentitiesOnly=yes -i ~/.ssh/id_ed25519" git push
+```
+
+Or permanently fix it by removing the `UseKeychain yes` line from `~/.ssh/config`.
+
+**Local build shows stale content after deleting posts**
+
+```bash
+rm -rf node_modules/.astro .astro dist
+pnpm build
+```
+
+**Mermaid diagram not rendering**
+
+- Make sure the code fence is exactly ` ```mermaid ` (lowercase).
+- Check syntax at https://mermaid.live first.
+
+**Deployment failed**
+
+Open the failing run in [Actions](https://github.com/jenniferbuilds/jenniferbuilds.github.io/actions) → click the red step → read the log. Most failures are frontmatter typos (e.g. unquoted `:` in a title) — the log will point at the file.
+
+---
+
+## Project structure
+
+```
+├── .github/workflows/deploy.yml   # auto-deploy to GitHub Pages
+├── src/
+│   ├── config.ts                  # ★ site settings (title, colors, footer…)
+│   ├── content/
+│   │   ├── posts/                 # ★ your blog posts live here
+│   │   └── about/about-en.md      # ★ About page
+│   ├── i18n/ui.ts                 # homepage title/description text
+│   ├── components/ layouts/ pages/  # theme code (rarely touched)
+│   └── styles/
+├── scripts/new-post.ts            # pnpm new-post helper
+└── astro.config.ts
+```
